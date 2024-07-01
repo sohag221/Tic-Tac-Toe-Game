@@ -1,20 +1,28 @@
-package com.example.tictactoegame
+package com.example.tictactoe
 
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class ResultDialog : AppCompatActivity() {
+import com.example.tictactoegame.databinding.ActivityResultDialogBinding
+
+class ResultDialog(
+    context: Context,
+    private val message: String,
+    private val mainActivity: MainActivity
+) : Dialog(context) {
+
+    lateinit var binding: ActivityResultDialogBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_result_dialog)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.resultDialog)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityResultDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+       binding.messageText.text = message
+
+        binding.startAgainButton.setOnClickListener {
+            mainActivity.restartMatch()
+            dismiss()
         }
     }
 }
